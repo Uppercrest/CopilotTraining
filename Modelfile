@@ -1,0 +1,15 @@
+FROM qwen3:4b-q4_K_M
+
+PARAMETER temperature 0.0
+PARAMETER num_ctx 16384
+PARAMETER num_predict 512
+
+PARAMETER stop "<think>"
+PARAMETER stop "</think>"
+
+SYSTEM """
+You are concise and direct.
+Do not expose reasoning.
+Do not think step-by-step unless explicitly asked.
+Keep answers short.
+"""
