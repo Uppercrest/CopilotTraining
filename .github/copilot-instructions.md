@@ -1,39 +1,49 @@
 # Copilot instructions — repository-level
 
 Purpose
-Provide repository-specific guidance so Copilot CLI agents and future contributors understand the repo layout, file formats, and how to make safe edits.
+Provide concise, repository-specific guidance so Copilot CLI agents and future contributors understand the repo layout, file formats, and how to make safe edits.
 
 Build / test / lint
-No explicit build, test, or lint commands were detected in this repository. If a build or test system is added, include runnable commands here and examples to run a single test (for example: `npm test -- <test-name>`).
+No explicit build, test, or lint commands were detected in this repository at the time of this update. If a build or test system is added, include runnable commands here and an example to run a single test (for example: `npm test -- <test-name>` or `pytest -k <test-name>`).
 
 Repository overview
-- This repository stores two plain-text data tables used as simple item storage:
-  - `item_names.txt` — header line: `ItemName` followed by one item name per line.
-  - `item_prices.txt` — header line: `ItemPrice` followed by one numeric price per line.
-- Files are intended to remain line-aligned: the Nth data line in item_names.txt corresponds to the Nth data line in item_prices.txt.
+- Primary files: `AGENTS.md`, `Modelfile`, `README.md`.
+- Purpose: learning and experimenting with Copilot/agent workflows and custom agents.
 
 File format & conventions
-- Encoding: UTF-8
-- Line endings: CRLF (Windows)
-- Header lines must be preserved exactly: `ItemName` and `ItemPrice`.
-- Prices: use plain decimal notation (e.g., 12.50). Do not include currency symbols in the data file.
-- When adding or removing an item, update both files in the same change so line alignment is preserved.
+- Encoding: UTF-8.
+- Line endings: LF (Unix-style).
+- Paths: use forward slashes (`/`) and workspace-relative paths when referencing files in text or patches.
+- When editing files, prefer minimal, focused diffs that preserve unrelated code and metadata.
 
 Agent guidance (for Copilot CLI / subagents)
 - Keep responses concise and actionable.
-- Use Windows-style paths (backslashes) when referencing files.
-- When proposing or performing edits to these data files, always:
-  1. Show the exact files changed and the exact diff or replacement text.
-  2. Preserve header lines and encoding.
-  3. If adding/removing items, apply matching edits to both files in one commit/PR.
-  4. For non-trivial changes, show the commands used to verify the change (e.g., `type "E:\\AI Projects\\CopilotTraining\\item_names.txt"`).
-- If using fleet/agent todos, update the session todos table (if present) after completing work.
+- Use POSIX-style workspace-relative paths (forward slashes) when referencing files (e.g., `src/main.py`).
+- When proposing or performing edits, always:
+  1. Show the exact files changed and the exact diff or replacement text (use unified diff or apply_patch-style hunks).
+  2. Preserve file encoding and important header lines.
+  3. Apply matching edits to related files in the same change to keep the repository consistent.
+  4. For non-trivial changes, show one or two verification commands that users can run locally (e.g., `git --no-pager diff`, `grep -n "TODO" src/`).
+- If your change requires running tests, state that and provide the command to run them; do not run tests unless asked or unless you have explicit permission.
+- When the repository contains agent/config files (for example `AGENTS.md`), prefer referring to them and keeping them in sync when changing agent behavior.
 
 How to change agent response style
-Edit this file or create a user-level file at `%USERPROFILE%\\.copilot\\copilot-instructions.md`. To prefer concise replies and Windows-paths, add a short `Response style:` block at the top, for example:
+- Repository-level: edit this file to suggest defaults for agents working in this repo.
+- User-level: users can create a per-user preferences file at `$HOME/.copilot/copilot-instructions.md` (Linux/macOS) or `%USERPROFILE%\\.copilot\\copilot-instructions.md` (Windows).
+- Example block to add at the top of a preferences file:
 
-Response style: Keep replies concise (<=100 words). Use a professional tone. Prefer bullet lists for steps. Use Windows paths and show changed files.
+  Response style: Keep replies concise (<=100 words). Use a professional tone. Prefer bullet lists for steps. Use workspace-relative forward-slash paths.
 
 Other AI assistant configs checked
-- No CLAUDE.md, AGENTS.md, CONVENTIONS, or other known assistant config files were detected in the repository root.
+- Found: `AGENTS.md` in the repository root. Keep that file authoritative for agent lists and agent-specific instructions.
 
+Notes for contributors and agents
+- Preserve repository structure and avoid renaming top-level files without coordination.
+- When making multi-file edits, group them into a single commit/PR and include an explanatory commit message.
+- If you find the instructions here are no longer accurate, update this file and mention the change in the PR description.
+
+Contact / follow-up
+If you want, I can:
+- Update `AGENTS.md` to reflect current agent workflows.
+- Add a short `CONTRIBUTING.md` with repository-specific developer steps.
+Tell me which of these you'd like next.
