@@ -14,6 +14,12 @@ Every agent file MUST include the following sections (in this order) and use the
 - Frontmatter (required fields):
 	- `id`: unique kebab-case id, e.g. `duck-claim-review`
 	- `name`: human-friendly name
+	- `description`: short 1–3 sentence summary of the agent's purpose
+	  
+	  Note: GitHub Copilot's agent profile format documents `description` as a recommended
+	  field (not strictly required by Copilot). However, all Duck agents MUST include a
+	  `description` YAML frontmatter field. Even when Copilot treats it as optional,
+	  this repository requires `description` to ensure clear discoverability and reviewability.
 	- `version`: semver (e.g. `0.1.0`)
 	- `author`: GitHub username or team
 
@@ -32,6 +38,7 @@ Every agent file MUST include the following sections (in this order) and use the
 ---
 id: duck-claim-review
 name: Duck Claim Review Agent
+description: Reviews incoming claims for policy compliance and flags exceptions.
 version: 0.1.0
 author: @team-duck
 ---
@@ -55,7 +62,7 @@ author: @team-duck
 - Each agent should have a focused responsibility. If a task naturally decomposes into sub-tasks, implement separate agents that coordinate via clearly documented handoffs.
 
 ## Verification checklist (PR template)
-- Frontmatter present and valid.
+- Frontmatter present and valid (including `description`).
 - At least 3 examples provided.
 - Patterns documented and source locations referenced.
 - Manual verification steps listed and reproducible.
@@ -65,7 +72,7 @@ author: @team-duck
 Suggested PR verification commands (copy-paste):
 ```bash
 git --no-pager diff --staged
-grep -n "^id: \|^name: \|^version: " .github/agents/*.agent.md
+grep -n "^id: \|^name: \|^description: \|^version: \|^author: " .github/agents/*.agent.md
 ``` 
 
 ## Review and enforcement

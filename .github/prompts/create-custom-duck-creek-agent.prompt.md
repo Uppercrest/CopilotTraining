@@ -10,7 +10,7 @@ Process (what the prompt asks the user and what the system will do):
 
 1) Collect basic inputs from the user
 - Agent name: concise, PascalCase, 1–4 words
-- Agent description: 1–3 sentences describing purpose, target users, and primary capabilities
+- Agent description (required): 1–3 sentences describing purpose, target users, and primary capabilities. This will be stored in the agent YAML frontmatter under the `description` field — all Duck agents MUST include this field.
 - Primary role/task: single sentence describing the role (e.g., `underwriter-assistant`, `policy-validator`)
 
 2) Tools discovery and selection
@@ -24,10 +24,10 @@ Process (what the prompt asks the user and what the system will do):
 4) Compliance with repository instructions
 - Confirm that the generated agent file will follow `.github/instructions/duck-agents.instrcutions.md` and include a `compliance` block that references that instructions file.
 
-Output: produce a ready-to-save agent configuration file containing the following fields (JSON/YAML preferred):
+Output: produce a ready-to-save agent configuration file containing the following fields (JSON/YAML preferred). Ensure `description` appears in the YAML frontmatter.
 
 - `name`: string (PascalCase)
-- `description`: string
+- `description`: string (frontmatter)
 - `role`: string
 - `model`: string (suggest default if user omits)
 - `tools`: array of objects { `name`, `signature`?, `description`, `required`: boolean }
